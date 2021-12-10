@@ -1,0 +1,74 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <script src="sugar.js"></script>
+</head>
+<body>
+    <div>
+        <h1>Todo list</h1>
+        <input id="input" type="text" placeholder="Thing to do" />
+        <button id="addBtn">Add</button>
+        <ul id="todos"></ul>
+    </div>
+    
+    <script>
+        sugar(() => {
+            var ENDPOINT = 'api/todos'
+
+            var input = document.getElementById("input")
+            var addBtn = document.getElementById("addBtn")
+            var todoList = document.getElementById("todos")
+
+            addBtn.addEventListener('click', addTodo)
+
+            renderTodoList()
+            
+            function renderTodoList() {
+                return fetch(ENDPOINT)
+                .then(response => response.json())
+                .then(todos => {
+                    todoList.innerHTML = ""
+                    for (const todo of todos) {
+                        renderTodo(todo.id, todo.text)
+                    }
+                })
+            }
+            
+            function renderTodo(id, text) {
+                var li = document.createElement("li")
+                li.appendChild(document.createTextNode(text))
+                li.onclick = () => {
+                    deleteTodo(id)
+                }
+                todoList.appendChild(li)
+            }
+            
+            function addTodo() {
+                if (input.value.trim() === "") {
+                    return
+                }
+                fetch(ENDPOINT, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        "text": input.value
+                    })
+                })
+                .then(response => response.json())
+                .then(todo => {
+                    input.value = ""
+                    renderTodo(todo.id, todo.text)
+                })
+            }
+            
+            function deleteTodo(id) {
+                fetch(ENDPOINT+'/'+id, {
+                    method: 'DELETE'
+                })
+                .then(response => {
+                    renderTodoList()
+                })
+            }
+        })
+    </script>
+</body>
+</html>

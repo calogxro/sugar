@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <script src="sugar.js"></script>
+</head>
+<body>
+    <script>
+        sugar(() => {
+            let todo = {
+                "text": "thing to do"
+            }
+
+            fetch('api/todos', {
+                method: 'POST',
+                body: JSON.stringify(todo)
+            })
+            .then(response => response.json())
+            .then(todo => {
+                console.log(todo)
+                /* 
+                output:
+                {
+                    "text": "thing to do",
+                    "id": 1
+                }
+                */
+            })
+        })
+    </script>
+</body>
+</html>

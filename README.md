@@ -2,10 +2,9 @@
 
 Sugar is a tool for rapid web UI prototyping with no server.
 
-It makes available a **virtual REST API** that accepts JSON requests, returns JSON responses and persists data between requests like a real API.
+It provides a **virtual REST API** that accepts JSON requests, returns JSON responses and persists data between requests like a real API.
 
-Most importantly, its usage is transparent. It doesn't matter how requests are done: you can use `fetch`, [axios](https://github.com/axios/axios), or wathever 
-library or method you prefer.
+Most importantly, its usage is transparent. It doesn't matter how requests are done: you can use `fetch`, [axios](https://github.com/axios/axios), or whatever library or method you prefer.
 
 ## Usage
 
@@ -34,15 +33,16 @@ sugar(() => {
     .then(response => response.json())
     .then(todo => {
         console.log(todo)
-        /* 
-        output:
-        {
-            "text": "thing to do",
-            "id": 1
-        }
-        */
     })
 })
+```
+
+Output:
+```
+{
+    "text": "thing to do",
+    "id": 1
+}
 ```
 
 File: [example-1.html](example-1.html)
@@ -75,16 +75,17 @@ sugar(() => {
         .then(response => response.json())
         .then(todo => {
             console.log(todo)
-            /*  
-            output:
-            {
-                "text": "thing to todo",
-                "id": 1
-            }
-            */
         })
     })
 })
+```
+
+Output:
+```
+{
+    "text": "thing to todo",
+    "id": 1
+}
 ```
 
 File: [example-2.html](example-2.html)
@@ -109,7 +110,7 @@ Single resource endpoints:
 
 ## How it works
 
-Under the hood, Sugar makes use of a service worker acting like a remote server.
+Under the hood there is a service worker acting like a remote server.
 
 The service worker (`sweetness.js`):
 - intercepts the JSON requests to `api/{resource}`
